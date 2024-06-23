@@ -1,4 +1,4 @@
-﻿namespace Projet_BTS2
+﻿namespace ProjetCrud
 {
     partial class Form1
     {
@@ -32,26 +32,28 @@
             BTDelete = new Button();
             BTUpdate = new Button();
             BTAdd = new Button();
-            LBWelcome = new Label();
+            BTArchive = new Button();
+            BTDeconnect = new Button();
+            BTConnexion = new Button();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)DGVUser).BeginInit();
             SuspendLayout();
             // 
             // DGVUser
             // 
-            DGVUser.BackgroundColor = Color.Silver;
+            DGVUser.BackgroundColor = Color.FloralWhite;
             DGVUser.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGVUser.Location = new Point(34, 201);
+            DGVUser.Location = new Point(34, 167);
             DGVUser.Name = "DGVUser";
             DGVUser.RowHeadersWidth = 51;
-            DGVUser.RowTemplate.Height = 29;
-            DGVUser.Size = new Size(683, 188);
+            DGVUser.Size = new Size(697, 220);
             DGVUser.TabIndex = 4;
             // 
             // BTDelete
             // 
-            BTDelete.Location = new Point(529, 135);
+            BTDelete.Location = new Point(319, 107);
             BTDelete.Name = "BTDelete";
-            BTDelete.Size = new Size(94, 29);
+            BTDelete.Size = new Size(117, 29);
             BTDelete.TabIndex = 3;
             BTDelete.Text = "Supprimer";
             BTDelete.UseVisualStyleBackColor = true;
@@ -59,9 +61,9 @@
             // 
             // BTUpdate
             // 
-            BTUpdate.Location = new Point(340, 135);
+            BTUpdate.Location = new Point(169, 107);
             BTUpdate.Name = "BTUpdate";
-            BTUpdate.Size = new Size(94, 29);
+            BTUpdate.Size = new Size(117, 29);
             BTUpdate.TabIndex = 2;
             BTUpdate.Text = "Modifier";
             BTUpdate.UseVisualStyleBackColor = true;
@@ -69,37 +71,71 @@
             // 
             // BTAdd
             // 
-            BTAdd.Location = new Point(140, 135);
+            BTAdd.Location = new Point(34, 107);
             BTAdd.Name = "BTAdd";
-            BTAdd.Size = new Size(94, 29);
+            BTAdd.Size = new Size(117, 29);
             BTAdd.TabIndex = 1;
             BTAdd.Text = "Ajouter";
             BTAdd.UseVisualStyleBackColor = true;
             BTAdd.Click += BTAdd_Click;
             // 
-            // LBWelcome
+            // BTArchive
             // 
-            LBWelcome.AutoSize = true;
-            LBWelcome.ForeColor = Color.Red;
-            LBWelcome.Location = new Point(357, 63);
-            LBWelcome.Name = "LBWelcome";
-            LBWelcome.Size = new Size(77, 20);
-            LBWelcome.TabIndex = 5;
-            LBWelcome.Text = "Bienvenue";
+            BTArchive.Location = new Point(469, 107);
+            BTArchive.Name = "BTArchive";
+            BTArchive.Size = new Size(117, 29);
+            BTArchive.TabIndex = 6;
+            BTArchive.Text = "(des)Archiver";
+            BTArchive.UseVisualStyleBackColor = true;
+            BTArchive.Click += BTArchive_Click;
+            // 
+            // BTDeconnect
+            // 
+            BTDeconnect.Location = new Point(614, 409);
+            BTDeconnect.Name = "BTDeconnect";
+            BTDeconnect.Size = new Size(117, 29);
+            BTDeconnect.TabIndex = 7;
+            BTDeconnect.Text = "Déconnexion";
+            BTDeconnect.UseVisualStyleBackColor = true;
+            BTDeconnect.Click += BTDeconnect_Click;
+            // 
+            // BTConnexion
+            // 
+            BTConnexion.Location = new Point(614, 107);
+            BTConnexion.Name = "BTConnexion";
+            BTConnexion.Size = new Size(117, 29);
+            BTConnexion.TabIndex = 8;
+            BTConnexion.Text = "Connexions";
+            BTConnexion.UseVisualStyleBackColor = true;
+            BTConnexion.Click += BTConnexion_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = Color.Red;
+            label1.Location = new Point(34, 59);
+            label1.Name = "label1";
+            label1.Size = new Size(141, 20);
+            label1.TabIndex = 9;
+            label1.Text = "Liste des utilisateurs";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.PeachPuff;
-            ClientSize = new Size(800, 450);
-            Controls.Add(LBWelcome);
+            BackColor = Color.MistyRose;
+            ClientSize = new Size(758, 450);
+            Controls.Add(label1);
+            Controls.Add(BTConnexion);
+            Controls.Add(BTDeconnect);
+            Controls.Add(BTArchive);
             Controls.Add(DGVUser);
             Controls.Add(BTDelete);
             Controls.Add(BTUpdate);
             Controls.Add(BTAdd);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Liste des utiisateurs";
+            FormClosed += quit;
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)DGVUser).EndInit();
             ResumeLayout(false);
@@ -111,6 +147,9 @@
         private Button BTDelete;
         private Button BTUpdate;
         private Button BTAdd;
-        private Label LBWelcome;
+        private Button BTArchive;
+        private Button BTDeconnect;
+        private Button BTConnexion;
+        private Label label1;
     }
 }

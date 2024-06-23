@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace Projet_BTS2
+namespace ProjetCrud
 {
 
     public class DBConnection

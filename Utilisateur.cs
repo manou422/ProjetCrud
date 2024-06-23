@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 
-namespace Projet_BTS2
+namespace ProjetCrud
 {
     public class Utilisateur
     {
@@ -10,6 +10,7 @@ namespace Projet_BTS2
         public string ContactMail { get; set; }
         public string ContactMdp { get; set; }
         public int ContactAdmin { get; set; }
+        public string ContactStatut { get; set; }
         public void save(DBConnection LaConnexion)
         {
             if (ContactId == 0)
@@ -54,7 +55,7 @@ namespace Projet_BTS2
             }
             else
             {
-                String query = "UPDATE utilisateurs SET nom = @ContactNom, prenom = @ContactPrenom, mail = @ContactMail, mdp = @ContactMdp where idu = @ContactId;";
+                String query = "UPDATE utilisateurs SET nom = @ContactNom, prenom = @ContactPrenom, mail = @ContactMail, mdp = @ContactMdp, admin = @ContactAdmin where idu = @ContactId;";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, LaConnexion.Connection))
                 {
@@ -63,6 +64,7 @@ namespace Projet_BTS2
                     cmd.Parameters.AddWithValue("@ContactNom", ContactNom);
                     cmd.Parameters.AddWithValue("@ContactPrenom", ContactPrenom);
                     cmd.Parameters.AddWithValue("@ContactMail", ContactMail);
+                    cmd.Parameters.AddWithValue("@ContactAdmin", ContactAdmin);
                     cmd.Parameters.AddWithValue("@ContactMdp", Crypto.HasherMotDePasse(ContactMdp));
 
 
@@ -76,19 +78,55 @@ namespace Projet_BTS2
 
         public void delete(DBConnection LaConnexion)
         {
-            String queryId = "DELETE FROM utilisateurs WHERE idu = @ContactId";
+            String queryId1 = "DELETE FROM connexion WHERE idu = @ContactId";
+
+            using (MySqlCommand cmdId1 = new MySqlCommand(queryId1, LaConnexion.Connection))
+            {
+
+                cmdId1.Parameters.AddWithValue("@ContactId", ContactId);
+
+
+
+                cmdId1.ExecuteNonQuery();
+            }
+
+                String queryId2 = "DELETE FROM utilisateurs WHERE idu = @ContactId";
+
+            using (MySqlCommand cmdId2 = new MySqlCommand(queryId2, LaConnexion.Connection))
+            {
+
+                cmdId2.Parameters.AddWithValue("@ContactId", ContactId);
+
+
+
+                cmdId2.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public void archivage (DBConnection LaConnexion)
+        {
+            string statut = "";
+            if(ContactStatut == "actif") {
+                statut = "archivé";
+            } else
+            {
+                statut = "actif";
+            }
+            String queryId = "UPDATE utilisateurs SET statut = @statut WHERE idu = @ContactId;";
 
             using (MySqlCommand cmdId = new MySqlCommand(queryId, LaConnexion.Connection))
             {
 
                 cmdId.Parameters.AddWithValue("@ContactId", ContactId);
+                cmdId.Parameters.AddWithValue("@statut", statut);
 
 
 
                 var reader = cmdId.ExecuteNonQuery();
 
             }
-
         }
     }
 }

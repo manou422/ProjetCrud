@@ -1,12 +1,14 @@
-﻿using MySql.Data.MySqlClient;
-using Projet_BTS2;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 
-namespace Test_projet
+namespace ProjetCrud
 {
     public partial class Login : Form
     {
 
         DBConnection LaConnexion = new DBConnection();
+        private int clickCount = 0;
         public Login()
         {
             InitializeComponent();
@@ -18,7 +20,11 @@ namespace Test_projet
 
         private void BTOk_Click(object sender, EventArgs e)
         {
-            string query = "SELECT prenom,mail,mdp,admin FROM utilisateurs WHERE mail = @mail AND mdp = @mdp";
+            string query = "SELECT idu,prenom,mail,mdp,admin,statut FROM utilisateurs WHERE mail = @mail AND mdp = @mdp";
+            string query2 = "INSERT INTO connexion (idc,idu,dateConnexion,echec) values (null,@idu,@dateConnexion,@echec);";
+            string queryRecherche = "SELECT idu,prenom,mail,mdp,admin,statut FROM utilisateurs WHERE mail = @mail";
+
+            int id = 0;
 
 
             if (LaConnexion.IsConnect())
@@ -29,53 +35,98 @@ namespace Test_projet
                     cmd.Parameters.AddWithValue("@mail", TBMail.Text);
                     cmd.Parameters.AddWithValue("@mdp", Crypto.HasherMotDePasse(TBMdp.Text));
 
-                    try
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+
+                    int rowCount = 0;
+                    while (reader.Read())
                     {
+                        id = Convert.ToInt32(reader["idu"]);
+                        rowCount++;
+                    }
+                    reader.Close();
+                    reader = cmd.ExecuteReader();
+                    reader.Read();
 
-                        MySqlDataReader reader = cmd.ExecuteReader();
+                    if (rowCount == 1 && (string)reader["statut"] == "actif")
+                    {
+                        String prenom = (string)reader["prenom"];
+                        int admin = Convert.ToInt32(reader["admin"]);
+                        reader.Close();
 
-                        int rowCount = 0;
-                        while (reader.Read())
+                        using (MySqlCommand command = new MySqlCommand(query2, LaConnexion.Connection))
                         {
-                            rowCount++;
+                            command.Parameters.AddWithValue("@idu", id);
+                            command.Parameters.AddWithValue("@dateConnexion", DateTime.Now);
+                            command.Parameters.AddWithValue("@echec", 1);
+                            command.ExecuteNonQuery();
                         }
 
-
-
-                        if (rowCount == 1)
-                        {
-                            String prenom = (string)reader["prenom"];
-                            int admin = Convert.ToInt32(reader["admin"]);
-                            reader.Close();
-                            if (admin == 1)
+                        if (admin == 1)
                             {
                                 Form1 formPrincipal = new Form1(LaConnexion, prenom);
                                 formPrincipal.Show();
                             }
-                            else
+                            else if (admin == 0)
                             {
                                 FormOperateur formPrincipal = new FormOperateur(LaConnexion, prenom);
                                 formPrincipal.Show();
                             }
                             this.Hide();
-                        }
-                        else
-                        {
-                            reader.Close();
-                        }
                     }
-                    catch (Exception ex)
+                    else if (rowCount == 1 && (string)reader["statut"] == "archivé")
                     {
-                        MessageBox.Show(ex.Message);
+                        reader.Close();
+                        MessageBox.Show("Votre compte a été archivé");
+                        
+                    }
+                    else
+                    {
+                        if(rowCount == 0)
+                        {
+                            
+                            using (MySqlCommand cmdRecherche = new MySqlCommand(queryRecherche, LaConnexion.Connection))
+                            {
+                                cmdRecherche.Parameters.AddWithValue("@mail", TBMail.Text);
+                                reader.Close();
+
+                                reader = cmdRecherche.ExecuteReader();
+                                int rowCountRecherche = 0;
+                                while (reader.Read())
+                                {
+                                    id = Convert.ToInt32(reader["idu"]);
+                                    rowCountRecherche++;
+                                }
+                                reader.Close();
+
+                                if(rowCountRecherche == 1)
+                                {
+                                    using (MySqlCommand command = new MySqlCommand(query2, LaConnexion.Connection))
+                                    {
+                                        command.Parameters.AddWithValue("@idu", id);
+                                        command.Parameters.AddWithValue("@dateConnexion", DateTime.Now);
+                                        command.Parameters.AddWithValue("@echec", 0);
+                                        command.ExecuteNonQuery();
+                                    }
+                                }
+                            }
+                            MessageBox.Show("Mail ou mot de passe invalide");
+                        }
                     }
                 }
             }
+
 
         }
 
         private void Login_Load(object sender, EventArgs e)
         {
             TBMdp.PasswordChar = '*';
+        }
+
+        private void quit(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

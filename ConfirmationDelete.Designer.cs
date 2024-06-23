@@ -1,4 +1,4 @@
-﻿namespace Test_projet
+﻿namespace ProjetCrud
 {
     partial class ConfirmationDelete
     {
@@ -36,7 +36,8 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(24, 44);
+            label1.ForeColor = Color.Red;
+            label1.Location = new Point(24, 32);
             label1.Name = "label1";
             label1.Size = new Size(335, 20);
             label1.TabIndex = 0;
@@ -44,7 +45,7 @@
             // 
             // BTOui
             // 
-            BTOui.Location = new Point(44, 106);
+            BTOui.Location = new Point(133, 84);
             BTOui.Name = "BTOui";
             BTOui.Size = new Size(94, 29);
             BTOui.TabIndex = 1;
@@ -54,7 +55,7 @@
             // 
             // BTNon
             // 
-            BTNon.Location = new Point(176, 106);
+            BTNon.Location = new Point(265, 84);
             BTNon.Name = "BTNon";
             BTNon.Size = new Size(94, 29);
             BTNon.TabIndex = 2;
@@ -66,12 +67,14 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = Color.MistyRose;
+            ClientSize = new Size(396, 145);
             Controls.Add(BTNon);
             Controls.Add(BTOui);
             Controls.Add(label1);
+            ForeColor = SystemColors.Desktop;
             Name = "ConfirmationDelete";
-            Text = "ConfirmationDelete";
+            Text = "Confirmation de supression";
             ResumeLayout(false);
             PerformLayout();
         }

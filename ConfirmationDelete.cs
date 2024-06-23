@@ -1,6 +1,5 @@
-﻿using Projet_BTS2;
-
-namespace Test_projet
+﻿
+namespace ProjetCrud
 {
     public partial class ConfirmationDelete : Form
     {

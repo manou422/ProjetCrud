@@ -1,4 +1,4 @@
-﻿namespace Test_projet
+﻿namespace ProjetCrud
 {
     partial class FormUtilisateur
     {
@@ -41,6 +41,7 @@
             BtnValide = new Button();
             LBAdmin = new Label();
             TBAdmin = new TextBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // TBNom
@@ -60,6 +61,7 @@
             // LBNom
             // 
             LBNom.AutoSize = true;
+            LBNom.ForeColor = Color.Red;
             LBNom.Location = new Point(37, 35);
             LBNom.Name = "LBNom";
             LBNom.Size = new Size(42, 20);
@@ -69,6 +71,7 @@
             // LBPrenom
             // 
             LBPrenom.AutoSize = true;
+            LBPrenom.ForeColor = Color.Red;
             LBPrenom.Location = new Point(37, 96);
             LBPrenom.Name = "LBPrenom";
             LBPrenom.Size = new Size(60, 20);
@@ -84,7 +87,7 @@
             // 
             // TBMdp
             // 
-            TBMdp.Location = new Point(174, 331);
+            TBMdp.Location = new Point(174, 315);
             TBMdp.Name = "TBMdp";
             TBMdp.Size = new Size(206, 27);
             TBMdp.TabIndex = 7;
@@ -92,24 +95,26 @@
             // LBMail
             // 
             LBMail.AutoSize = true;
+            LBMail.ForeColor = Color.Red;
             LBMail.Location = new Point(37, 163);
             LBMail.Name = "LBMail";
-            LBMail.Size = new Size(38, 20);
+            LBMail.Size = new Size(44, 20);
             LBMail.TabIndex = 8;
-            LBMail.Text = "Mail";
+            LBMail.Text = "Mail*";
             // 
             // LBMdp
             // 
             LBMdp.AutoSize = true;
-            LBMdp.Location = new Point(37, 338);
+            LBMdp.ForeColor = Color.Red;
+            LBMdp.Location = new Point(37, 322);
             LBMdp.Name = "LBMdp";
-            LBMdp.Size = new Size(98, 20);
+            LBMdp.Size = new Size(104, 20);
             LBMdp.TabIndex = 9;
-            LBMdp.Text = "Mot de passe";
+            LBMdp.Text = "Mot de passe*";
             // 
             // BTChangeMDP
             // 
-            BTChangeMDP.Location = new Point(37, 400);
+            BTChangeMDP.Location = new Point(37, 387);
             BTChangeMDP.Name = "BTChangeMDP";
             BTChangeMDP.Size = new Size(134, 29);
             BTChangeMDP.TabIndex = 10;
@@ -119,16 +124,17 @@
             // 
             // BTAnnuler
             // 
-            BTAnnuler.Location = new Point(257, 400);
+            BTAnnuler.Location = new Point(177, 387);
             BTAnnuler.Name = "BTAnnuler";
             BTAnnuler.Size = new Size(94, 29);
             BTAnnuler.TabIndex = 11;
             BTAnnuler.Text = "Annuler";
             BTAnnuler.UseVisualStyleBackColor = true;
+            BTAnnuler.Click += BTAnnuler_Click_1;
             // 
             // BtnValide
             // 
-            BtnValide.Location = new Point(445, 400);
+            BtnValide.Location = new Point(286, 387);
             BtnValide.Name = "BtnValide";
             BtnValide.Size = new Size(94, 29);
             BtnValide.TabIndex = 12;
@@ -139,24 +145,36 @@
             // LBAdmin
             // 
             LBAdmin.AutoSize = true;
-            LBAdmin.Location = new Point(37, 258);
+            LBAdmin.ForeColor = Color.Red;
+            LBAdmin.Location = new Point(37, 228);
             LBAdmin.Name = "LBAdmin";
-            LBAdmin.Size = new Size(53, 20);
+            LBAdmin.Size = new Size(59, 20);
             LBAdmin.TabIndex = 13;
-            LBAdmin.Text = "Admin";
+            LBAdmin.Text = "Admin*";
             // 
             // TBAdmin
             // 
-            TBAdmin.Location = new Point(174, 255);
+            TBAdmin.Location = new Point(174, 221);
             TBAdmin.Name = "TBAdmin";
             TBAdmin.Size = new Size(206, 27);
             TBAdmin.TabIndex = 14;
+            // 
+            // label1
+            // 
+            label1.ForeColor = Color.Red;
+            label1.Location = new Point(174, 251);
+            label1.Name = "label1";
+            label1.Size = new Size(206, 50);
+            label1.TabIndex = 15;
+            label1.Text = "(Saisisez 1 pour admin et 0 pour Opérateur)";
             // 
             // FormUtilisateur
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            BackColor = Color.MistyRose;
+            ClientSize = new Size(450, 450);
+            Controls.Add(label1);
             Controls.Add(TBAdmin);
             Controls.Add(LBAdmin);
             Controls.Add(BtnValide);
@@ -170,8 +188,9 @@
             Controls.Add(LBNom);
             Controls.Add(TBPrenom);
             Controls.Add(TBNom);
+            ForeColor = SystemColors.ActiveCaptionText;
             Name = "FormUtilisateur";
-            Text = "FormUtilisateur";
+            Text = "Formulaire utilisateurs";
             Load += FormUtilisateur_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -192,5 +211,6 @@
         private Button BtnValide;
         private Label LBAdmin;
         private TextBox TBAdmin;
+        private Label label1;
     }
 }

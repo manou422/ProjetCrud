@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Projet_BTS2
+namespace ProjetCrud
 {
     public static class Crypto
     {

@@ -1,6 +1,5 @@
-using Test_projet;
 
-namespace Projet_BTS2
+namespace ProjetCrud
 {
     internal static class Program
     {

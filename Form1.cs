@@ -1,17 +1,18 @@
 using MySql.Data.MySqlClient;
-using Test_projet;
+using ProjetCrud;
 
-namespace Projet_BTS2
+namespace ProjetCrud
 {
     public partial class Form1 : Form
     {
 
         DBConnection LaConnexion;
+        private string prenom;
         public Form1(DBConnection connect, String n)
         {
             InitializeComponent();
             LaConnexion = connect;
-            LBWelcome.Text = "Bienvenue " + n;
+            prenom = n;
 
         }
 
@@ -34,48 +35,43 @@ namespace Projet_BTS2
 
         private void BTAdd_Click(object sender, EventArgs e)
         {
+            Utilisateur utilisateur = new Utilisateur();
+            FormUtilisateur fu = new FormUtilisateur(utilisateur, LaConnexion);
 
-                Utilisateur utilisateur = new Utilisateur();
-                FormUtilisateur fu = new FormUtilisateur(utilisateur, LaConnexion);
+            DialogResult result = fu.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string query = "SELECT * FROM utilisateurs where idu > 0";
+                var cmd = new MySqlCommand(query, LaConnexion.Connection);
+                LaConnexion.Connection.Open();
+                var reader = cmd.ExecuteReader();
+                List<Utilisateur> users = new List<Utilisateur>();
 
-                DialogResult result = fu.ShowDialog();
-                if (result == DialogResult.OK)
+                while (reader.Read())
                 {
-                    string query = "SELECT * FROM utilisateurs where idu > 0";
-                    var cmd = new MySqlCommand(query, LaConnexion.Connection);
-                    LaConnexion.Connection.Open();
-                    var reader = cmd.ExecuteReader();
-                    List<Utilisateur> users = new List<Utilisateur>();
-
-                    while (reader.Read())
+                    try
                     {
-                        try
+                        Utilisateur user = new Utilisateur
                         {
-                            Utilisateur user = new Utilisateur
-                            {
-                                ContactId = (int)reader["idu"],
-                                ContactNom = (string)reader["nom"],
-                                ContactPrenom = (string)reader["prenom"],
-                                ContactMail = (string)reader["mail"],
-                                ContactMdp = (string)reader["mdp"],
-                                ContactAdmin = (int)reader["admin"]
-                            };
-                            users.Add(user);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
+                            ContactId = (int)reader["idu"],
+                            ContactNom = (string)reader["nom"],
+                            ContactPrenom = (string)reader["prenom"],
+                            ContactMail = (string)reader["mail"],
+                            ContactAdmin = (int)reader["admin"],
+                            ContactStatut = (string)reader["statut"]
+                        };
+                        users.Add(user);
                     }
-                    reader.Close();
-                    DGVUser.DataSource = users;
-                    DGVUser.Columns["ContactId"].Visible = false;
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                else if (result == DialogResult.Cancel)
-                {
-                Close();
-                }
-            
+                reader.Close();
+                DGVUser.DataSource = users;
+                DGVUser.Columns["ContactId"].Visible = false;
+            }
+
         }
 
         private void BTUpdate_Click(object sender, EventArgs e)
@@ -87,7 +83,6 @@ namespace Projet_BTS2
                 FormUtilisateur formUser = new FormUtilisateur(selectedClient, LaConnexion);
 
                 DialogResult result = formUser.ShowDialog();
-                // Traitez le résultat en fonction du bouton sur lequel l'utilisateur a cliqué
                 if (result == DialogResult.OK)
                 {
                     string query = "SELECT * FROM utilisateurs where idu > 0";
@@ -105,8 +100,8 @@ namespace Projet_BTS2
                                 ContactNom = (string)reader["nom"],
                                 ContactPrenom = (string)reader["prenom"],
                                 ContactMail = (string)reader["mail"],
-                                ContactMdp = (string)reader["mdp"],
-                                ContactAdmin = (int)reader["admin"]
+                                ContactAdmin = (int)reader["admin"],
+                                ContactStatut = (string)reader["statut"]
                             };
                             users.Add(user);
                         }
@@ -119,10 +114,9 @@ namespace Projet_BTS2
                     DGVUser.DataSource = users;
                     DGVUser.Columns["ContactId"].Visible = false;
                 }
-                else if (result == DialogResult.Cancel)
-                {
-                    Close();
-                }
+            } else
+            {
+                MessageBox.Show("Veuillez sélectionner une personne");
             }
         }
 
@@ -132,7 +126,94 @@ namespace Projet_BTS2
             {
                 DataGridViewRow row = DGVUser.SelectedRows[0];
                 Utilisateur selectedClient = (Utilisateur)row.DataBoundItem;
-                ConfirmationDelete formUser = new ConfirmationDelete(selectedClient, LaConnexion);
+                if (selectedClient.ContactPrenom == prenom)
+                {
+                    MessageBox.Show("Vous essayez de vous auto suprimer");
+                }
+                else
+                {
+                    ConfirmationDelete formUser = new ConfirmationDelete(selectedClient, LaConnexion);
+                    DialogResult result = formUser.ShowDialog();
+                    string query = "SELECT * FROM utilisateurs where idu > 0";
+                    var cmd = new MySqlCommand(query, LaConnexion.Connection);
+                    var reader = cmd.ExecuteReader();
+                    List<Utilisateur> users = new List<Utilisateur>();
+
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            Utilisateur user = new Utilisateur
+                            {
+                                ContactId = (int)reader["idu"],
+                                ContactNom = (string)reader["nom"],
+                                ContactPrenom = (string)reader["prenom"],
+                                ContactMail = (string)reader["mail"],
+                                ContactAdmin = (int)reader["admin"],
+                                ContactStatut = (string)reader["statut"]
+                            };
+                            users.Add(user);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                    reader.Close();
+                    DGVUser.DataSource = users;
+                    DGVUser.Columns["ContactId"].Visible = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner une personne");
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            MessageBox.Show("Bienvenue " + prenom + " (admin)");
+            string query = "SELECT * FROM utilisateurs where idu > 0";
+            var cmd = new MySqlCommand(query, LaConnexion.Connection);
+            var reader = cmd.ExecuteReader();
+            List<Utilisateur> users = new List<Utilisateur>();
+
+            while (reader.Read())
+            {
+                try
+                {
+                    Utilisateur user = new Utilisateur
+                    {
+                        ContactId = (int)reader["idu"],
+                        ContactNom = (string)reader["nom"],
+                        ContactPrenom = (string)reader["prenom"],
+                        ContactMail = (string)reader["mail"],
+                        ContactAdmin = (int)reader["admin"],
+                        ContactStatut = (string)reader["statut"]
+                    };
+                    users.Add(user);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            reader.Close();
+            DGVUser.DataSource = users;
+            DGVUser.Columns["ContactId"].Visible = false;
+            DGVUser.Columns["ContactMdp"].Visible = false;
+
+
+
+        }
+
+        private void BTArchive_Click(object sender, EventArgs e)
+        {
+            if (DGVUser.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = DGVUser.SelectedRows[0];
+                Utilisateur selectedClient = (Utilisateur)row.DataBoundItem;
+                ConfirmationArchivage formUser = new ConfirmationArchivage(selectedClient, LaConnexion);
                 DialogResult result = formUser.ShowDialog();
                 string query = "SELECT * FROM utilisateurs where idu > 0";
                 var cmd = new MySqlCommand(query, LaConnexion.Connection);
@@ -149,8 +230,8 @@ namespace Projet_BTS2
                             ContactNom = (string)reader["nom"],
                             ContactPrenom = (string)reader["prenom"],
                             ContactMail = (string)reader["mail"],
-                            ContactMdp = (string)reader["mdp"],
-                            ContactAdmin = (int)reader["admin"]
+                            ContactAdmin = (int)reader["admin"],
+                            ContactStatut = (string)reader["statut"]
                         };
                         users.Add(user);
                     }
@@ -163,38 +244,28 @@ namespace Projet_BTS2
                 DGVUser.DataSource = users;
                 DGVUser.Columns["ContactId"].Visible = false;
             }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner une personne");
+            }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void BTDeconnect_Click(object sender, EventArgs e)
         {
-            string query = "SELECT * FROM utilisateurs where idu > 0";
-            var cmd = new MySqlCommand(query, LaConnexion.Connection);
-            var reader = cmd.ExecuteReader();
-            List<Utilisateur> users = new List<Utilisateur>();
+            Login connexion = new Login();
+            connexion.Show();
+            this.Hide();
+        }
 
-            while (reader.Read())
-            {
-                try
-                {
-                    Utilisateur user = new Utilisateur
-                    {
-                        ContactId = (int)reader["idu"],
-                        ContactNom = (string)reader["nom"],
-                        ContactPrenom = (string)reader["prenom"],
-                        ContactMail = (string)reader["mail"],
-                        ContactMdp = (string)reader["mdp"],
-                        ContactAdmin = (int)reader["admin"]
-                    };
-                    users.Add(user);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-            reader.Close();
-            DGVUser.DataSource = users;
-            DGVUser.Columns["ContactId"].Visible = false;
+        private void BTConnexion_Click(object sender, EventArgs e)
+        {
+            ConnexionUsers formUser = new ConnexionUsers(LaConnexion);
+            formUser.Show();
+        }
+
+        private void quit(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
