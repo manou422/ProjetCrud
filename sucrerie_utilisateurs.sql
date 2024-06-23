@@ -31,7 +31,7 @@ CREATE TABLE `utilisateurs` (
   `admin` int DEFAULT NULL,
   `statut` enum('actif','archivé') NOT NULL DEFAULT 'actif',
   PRIMARY KEY (`idu`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `utilisateurs` (
 
 LOCK TABLES `utilisateurs` WRITE;
 /*!40000 ALTER TABLE `utilisateurs` DISABLE KEYS */;
-INSERT INTO `utilisateurs` VALUES (19,'Laetitia','ORTIZ','manou422@icloud.com','b340cf171cacc879bfdc08077d0260c25e3b60d47b6cbed1c3614fe97e091836',1,'actif'),(28,'valentin','ortiz','test','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25',0,'actif'),(30,'Manon','Lol','AZ','b340cf171cacc879bfdc08077d0260c25e3b60d47b6cbed1c3614fe97e091836',1,'actif'),(33,'Lola','O','Lola.o','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25',0,'actif');
+INSERT INTO `utilisateurs` VALUES (19,'Laetitia','ORTIZ','manou422@icloud.com','b340cf171cacc879bfdc08077d0260c25e3b60d47b6cbed1c3614fe97e091836',1,'actif'),(33,'Lola','O','Lola.o','532eaabd9574880dbf76b9b8cc00832c20a6ec113d682299550d7a6e0f345e25',0,'actif'),(35,'Ernest','Admin','ernest@admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',1,'actif'),(42,'','','charles@op','037aeaeaf4bbf26ddabe7256a8294dc52da48d575a1247b5c2598c47de7aebab',0,'actif');
 /*!40000 ALTER TABLE `utilisateurs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-11 16:15:32
+-- Dump completed on 2024-06-23 23:55:25
