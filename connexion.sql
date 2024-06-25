@@ -30,7 +30,7 @@ CREATE TABLE `connexion` (
   PRIMARY KEY (`Idc`),
   KEY `idu` (`idu`),
   CONSTRAINT `connexion_ibfk_1` FOREIGN KEY (`idu`) REFERENCES `utilisateurs` (`idu`)
-) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

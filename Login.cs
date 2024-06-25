@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI;
+using System;
 
 namespace ProjetCrud
 {
